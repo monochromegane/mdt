@@ -29,14 +29,48 @@ func (c column) toMarkdown(length int) string {
 	return fmt.Sprintf(format, c.content)
 }
 
+type align int
+
+const (
+	left align = iota
+	center
+	right
+	none
+)
+
 type divColumn struct {
 	column
+	align align
 }
 
 func newDivColumn(s string) divColumn {
-	return divColumn{newColumn(s)}
+	s = strings.TrimSpace(s)
+	align := none
+	switch {
+	case strings.HasPrefix(s, ":") && strings.HasSuffix(s, ":"):
+		align = center
+	case strings.HasPrefix(s, ":"):
+		align = left
+	case strings.HasSuffix(s, ":"):
+		align = right
+	}
+	return divColumn{
+		column: newColumn(strings.Trim(s, ":")),
+		align:  align,
+	}
 }
 
 func (d divColumn) toMarkdown(length int) string {
-	return fmt.Sprintf(" %s ", strings.Repeat("-", length))
+	prefix := " "
+	suffix := " "
+	switch d.align {
+	case left:
+		prefix = ":"
+	case center:
+		prefix = ":"
+		suffix = ":"
+	case right:
+		suffix = ":"
+	}
+	return fmt.Sprintf("%s%s%s", prefix, strings.Repeat("-", length), suffix)
 }
