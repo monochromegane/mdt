@@ -17,7 +17,7 @@ type column struct {
 
 func newColumn(s string) column {
 	return column{
-		content: s,
+		content: strings.TrimSpace(s),
 	}
 }
 
