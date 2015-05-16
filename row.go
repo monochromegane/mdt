@@ -6,22 +6,32 @@ import (
 )
 
 type row struct {
-	columns []column
+	columns   []columner
+	newColumn newColumnFunc
 }
 
+type newColumnFunc func(s string) columner
+
 func newRow(s string) row {
+	row := row{newColumn: func(s string) columner { return newColumn(s) }}
+	row.setRow(s)
+	return row
+}
 
-	row := row{}
+func newDivRow(s string) row {
+	row := row{newColumn: func(s string) columner { return newDivColumn(s) }}
+	row.setRow(s)
+	return row
+}
 
+func (r *row) setRow(s string) {
 	s = strings.Trim(s, "|")
 	s = strings.Replace(s, "|", "\t", -1)
 	s = strings.Replace(s, ",", "\t", -1)
 
 	for _, col := range strings.Split(s, "\t") {
-		row.columns = append(row.columns, newColumn(col))
+		r.columns = append(r.columns, r.newColumn(col))
 	}
-
-	return row
 }
 
 func (r row) colNum() int {
@@ -39,7 +49,7 @@ func (r row) lengthAt(index int) int {
 func (r *row) fillColumn(colNum int) {
 	short := colNum - len(r.columns)
 	for i := 0; i < short; i++ {
-		r.columns = append(r.columns, newColumn(""))
+		r.columns = append(r.columns, r.newColumn(""))
 	}
 }
 

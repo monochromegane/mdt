@@ -16,7 +16,13 @@ func (t *table) addRow(s string) {
 	if s == "" {
 		return
 	}
+	// add row.
 	t.rows = append(t.rows, newRow(s))
+
+	// add division row.
+	if len(t.rows) == 1 {
+		t.rows = append(t.rows, newDivRow(""))
+	}
 }
 
 func (t *table) toMarkdown() (string, error) {
