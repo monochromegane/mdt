@@ -36,8 +36,8 @@ func (t *table) addRow(s string) {
 	}
 }
 
-func (t *table) toMarkdown() (string, error) {
-	return t.rows.toMarkdown(), nil
+func (t *table) toMarkdown() string {
+	return t.rows.toMarkdown()
 }
 
 var regDivRow = regexp.MustCompile("^[\\s]*\\|[\\s]*:*--+[\\s]*:*\\|")

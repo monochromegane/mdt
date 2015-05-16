@@ -17,7 +17,5 @@ func Convert(r io.Reader) (string, error) {
 		return "", err
 	}
 
-	md, _ := table.toMarkdown()
-
-	return md, nil
+	return table.toMarkdown(), nil
 }

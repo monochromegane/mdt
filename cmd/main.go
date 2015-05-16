@@ -2,12 +2,16 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"os"
 
 	"github.com/monochromegane/mdt"
 )
 
 func main() {
-	out, _ := mdt.Convert(os.Stdin)
-	fmt.Printf("%s\n", out)
+	out, err := mdt.Convert(os.Stdin)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Printf("%s", out)
 }
