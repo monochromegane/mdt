@@ -3,6 +3,7 @@ package mdt
 import (
 	"fmt"
 	"strings"
+	"unicode/utf8"
 )
 
 type columner interface {
@@ -21,11 +22,29 @@ func newColumn(s string) column {
 }
 
 func (c column) length() int {
-	return len(c.content)
+	var length int
+	for _, s := range c.content {
+		if l := utf8.RuneLen(s); l > 1 {
+			length += 2
+		} else {
+			length++
+		}
+	}
+	return length
+}
+
+func (c column) multiByteNum() int {
+	var num int
+	for _, s := range c.content {
+		if l := utf8.RuneLen(s); l > 1 {
+			num++
+		}
+	}
+	return num
 }
 
 func (c column) toMarkdown(length int) string {
-	format := fmt.Sprintf(" %%- %ds ", length)
+	format := fmt.Sprintf(" %%- %ds ", length-c.multiByteNum())
 	return fmt.Sprintf(format, c.content)
 }
 
