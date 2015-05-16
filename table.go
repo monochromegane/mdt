@@ -22,8 +22,9 @@ func (t *table) addRow(s string) {
 
 	if len(t.rows) == 0 {
 		// header and division rows.
-		t.rows = append(t.rows, newRow(s))
-		t.rows = append(t.rows, newDivRow(""))
+		row, divRow := newHeaderRow(s)
+		t.rows = append(t.rows, row)
+		t.rows = append(t.rows, divRow)
 	} else {
 		if isDivRow(s) {
 			// over write division row.

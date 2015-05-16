@@ -12,14 +12,25 @@ type row struct {
 
 type newColumnFunc func(s string) columner
 
-func newRow(s string) row {
+func newHeaderRow(s string) (row, row) {
+	divRow := newDivRow(s)
 	row := row{newColumn: func(s string) columner { return newColumn(s) }}
-	row.setRow(s)
-	return row
+
+	for _, dc := range divRow.columns {
+		c := dc.(divColumn)
+		row.columns = append(row.columns, c.column)
+	}
+	return row, divRow
 }
 
 func newDivRow(s string) row {
 	row := row{newColumn: func(s string) columner { return newDivColumn(s) }}
+	row.setRow(s)
+	return row
+}
+
+func newRow(s string) row {
+	row := row{newColumn: func(s string) columner { return newColumn(s) }}
 	row.setRow(s)
 	return row
 }
