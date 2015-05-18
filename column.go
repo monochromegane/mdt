@@ -26,8 +26,7 @@ func (c column) length() int {
 }
 
 func (c column) toMarkdown(length int) string {
-	format := fmt.Sprintf(" %%- %ds ", length-c.length()+1)
-	return fmt.Sprintf(format, c.content)
+	return " " + c.content + strings.Repeat(" ", length-c.length()) + " "
 }
 
 type align int
