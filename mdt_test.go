@@ -53,6 +53,7 @@ func ExampleConvert_multibyte() {
 	r := strings.NewReader(`
 headerA, headerB
 マルチバイト文字, content
+ﾏﾙﾁﾊﾞｲﾄ文字, content
 `)
 	result, _ := mdt.Convert(r)
 	fmt.Printf("%s", result)
@@ -61,6 +62,7 @@ headerA, headerB
 	// | headerA          | headerB |
 	// | ---------------- | ------- |
 	// | マルチバイト文字 | content |
+	// | ﾏﾙﾁﾊﾞｲﾄ文字      | content |
 }
 
 func ExampleConvert_align() {
