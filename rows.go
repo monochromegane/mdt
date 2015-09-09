@@ -21,6 +21,9 @@ func (r rows) lengthAt(index int) int {
 			max = n
 		}
 	}
+	if max < 3 {
+		max = 3
+	}
 	return max
 }
 
