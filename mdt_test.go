@@ -95,3 +95,31 @@ next content, next content
 	// | content      | content      |
 	// | next content | next content |
 }
+
+func ExampleConvert_short() {
+	r := strings.NewReader(`
+#,A
+1,B
+`)
+	result, _ := mdt.Convert(r)
+	fmt.Printf("%s", result)
+
+	// Output:
+	// | #   | A   |
+	// | --- | --- |
+	// | 1   | B   |
+}
+
+func ExampleConvert_short_align() {
+	r := strings.NewReader(`
+#:,:A:
+1,B
+`)
+	result, _ := mdt.Convert(r)
+	fmt.Printf("%s", result)
+
+	// Output:
+	// | #   | A   |
+	// | ---:|:---:|
+	// | 1   | B   |
+}
