@@ -24,6 +24,7 @@ For example, you can use `mdt` with `Automator Service` on GitHub PR/Issue page.
 - Support multibyte contents.
 - Define align at CSV/TSV header ex. `:headerA:, headerB:`
 - Repeating execution.
+- Specify a header line (`-H` option).
 
 See also [examples](https://godoc.org/github.com/monochromegane/mdt#pkg-examples).
 

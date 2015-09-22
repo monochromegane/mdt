@@ -12,7 +12,7 @@ func ExampleConvert_csv() {
 headerA, headerB
 content, content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -26,7 +26,7 @@ func ExampleConvert_tsv() {
 headerA	headerB
 content	content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -40,7 +40,7 @@ func ExampleConvert_format() {
 headerA, headerB
 short, very very long content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -55,7 +55,7 @@ headerA, headerB
 マルチバイト文字, content
 ﾏﾙﾁﾊﾞｲﾄ文字, content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -70,7 +70,7 @@ func ExampleConvert_align() {
 headerA:, :headerB:
 content, content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -86,7 +86,7 @@ func ExampleConvert_repeat() {
 | content | content |
 next content, next content
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -101,7 +101,7 @@ func ExampleConvert_short() {
 #,A
 1,B
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
@@ -115,11 +115,37 @@ func ExampleConvert_short_align() {
 #:,:A:
 1,B
 `)
-	result, _ := mdt.Convert(r)
+	result, _ := mdt.Convert("", r)
 	fmt.Printf("%s", result)
 
 	// Output:
 	// | #   | A   |
 	// | ---:|:---:|
 	// | 1   | B   |
+}
+
+func ExampleConvert_with_header() {
+	r := strings.NewReader(`
+content, content
+`)
+	result, _ := mdt.Convert("headerA,headerB", r)
+	fmt.Printf("%s", result)
+
+	// Output:
+	// | headerA | headerB |
+	// | ------- | ------- |
+	// | content | content |
+}
+
+func ExampleConvert_with_header_align() {
+	r := strings.NewReader(`
+content, content
+`)
+	result, _ := mdt.Convert("headerA:,:headerB", r)
+	fmt.Printf("%s", result)
+
+	// Output:
+	// | headerA | headerB |
+	// | -------:|:------- |
+	// | content | content |
 }
